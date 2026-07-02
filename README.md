@@ -1,6 +1,8 @@
 # TalentOS - Modern Recruitment ATS Platform
 
-Prepared for **Kalpana Software Solution Pvt. Ltd. – SDE-1 Full Stack Engineering Assessment**.
+Prepared for **Kalpana Software Solution Pvt. Ltd.**.
+
+here is the live link (vercel): https://talent-os-sage.vercel.app/
 
 TalentOS is a premium SaaS Applicant Tracking System (ATS) designed to connect ambitious students with forward-thinking companies. It provides a seamless, highly-polished experience for both Hiring Managers and Students, heavily enhanced by Google Gemini AI capabilities.
 
