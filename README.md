@@ -30,7 +30,7 @@ This project uses a decoupled Client-Server architecture.
 
 ✅ **Authentication & Authorization**: Secure JWT-based auth with `STUDENT` and `HIRING_MANAGER` roles.
 ✅ **Student Onboarding**: Compulsory profile completion flow capturing Bio, Skills, Resume, GitHub, LinkedIn, and Portfolio with a dynamic Profile Completion Score.
-✅ **Job Search & Aggregation**: Unified job search combining internal postings with an **External Job API Aggregator** (using the Remotive Public API).
+✅ **Job Search & Aggregation**: Unified job search combining internal postings with an **External Job Scraper** (Real-time live scraping of LinkedIn jobs in India using `jobspy-node` with intelligent in-memory caching).
 ✅ **Saved Jobs**: Students can bookmark jobs to their dashboard.
 ✅ **Applicant Tracking System (ATS)**: Hiring Managers can move candidates through a structured pipeline (`APPLIED`, `REVIEWING`, `INTERVIEW`, `OFFERED`, `REJECTED`), leave internal Recruiter Notes, and preview resumes natively.
 ✅ **Duplicate Application Prevention**: Hard blocks on the backend and UI to prevent students from applying to the same job twice.
