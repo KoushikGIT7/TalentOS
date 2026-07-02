@@ -1,5 +1,5 @@
 import Job from '../models/Job.js';
-import axios from 'axios';
+import { getExternalJobs } from '../services/externalJobProvider.js';
 
 // @desc    Create a job
 // @route   POST /api/jobs
@@ -22,7 +22,7 @@ export const createJob = async (req, res) => {
 // @access  Public
 export const getJobs = async (req, res) => {
   try {
-    const keyword = req.query.keyword
+    const keywordQuery = req.query.keyword
       ? {
           $or: [
             { title: { $regex: req.query.keyword, $options: 'i' } },
@@ -33,39 +33,11 @@ export const getJobs = async (req, res) => {
         }
       : {};
 
-    const internalJobs = await Job.find({ ...keyword }).populate('creator', 'name');
-    
-    // Fetch external jobs from Remotive API as a simple scraper
-    let externalJobs = [];
-    try {
-      const response = await axios.get('https://remotive.com/api/remote-jobs?limit=10');
-      
-      externalJobs = response.data.jobs.map(job => ({
-        _id: `ext_${job.id}`,
-        title: job.title,
-        company: job.company_name,
-        location: job.candidate_required_location || 'Remote',
-        description: job.description,
-        salary: job.salary,
-        type: job.job_type,
-        isExternal: true,
-        externalUrl: job.url,
-        createdAt: job.publication_date,
-      }));
-
-      // Basic filtering for external jobs if keyword exists
-      if (req.query.keyword) {
-        const kw = req.query.keyword.toLowerCase();
-        externalJobs = externalJobs.filter(job => 
-          job.title.toLowerCase().includes(kw) ||
-          job.company.toLowerCase().includes(kw) ||
-          job.location.toLowerCase().includes(kw)
-        );
-      }
-    } catch (err) {
-      console.error('Error fetching external jobs:', err.message);
-      // Fail silently for external API so internal jobs still load
-    }
+    // Fetch internal and external jobs concurrently for maximum speed
+    const [internalJobs, externalJobs] = await Promise.all([
+      Job.find({ ...keywordQuery }).populate('creator', 'name'),
+      getExternalJobs(req.query.keyword)
+    ]);
 
     // Mix them
     const allJobs = [...internalJobs, ...externalJobs];
