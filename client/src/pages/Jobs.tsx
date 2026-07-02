@@ -228,20 +228,33 @@ export default function Jobs() {
                   <button disabled className="w-full py-2.5 px-4 rounded-lg font-medium flex items-center justify-center gap-2 bg-emerald-50 text-emerald-600 border border-emerald-200">
                     <CheckCircle2 size={18} /> Already Applied
                   </button>
+                ) : job.isExternal ? (
+                  <a
+                    href={isAuthenticated ? job.externalUrl : undefined}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => {
+                      if (!isAuthenticated) {
+                        e.preventDefault();
+                        alert('Please login to apply');
+                        return;
+                      }
+                      if (user?.role !== 'STUDENT') {
+                        e.preventDefault();
+                        alert('Only students can apply to jobs');
+                        return;
+                      }
+                    }}
+                    className="w-full py-2.5 px-4 rounded-lg font-medium flex items-center justify-center gap-2 transition-all duration-150 bg-slate-100 text-slate-700 hover:bg-slate-200"
+                  >
+                    Apply Externally <ExternalLink size={16} />
+                  </a>
                 ) : (
                   <button
                     onClick={() => handleApplyClick(job)}
-                    className={`w-full py-2.5 px-4 rounded-lg font-medium flex items-center justify-center gap-2 transition-all duration-150 ${
-                      job.isExternal 
-                        ? 'bg-slate-100 text-slate-700 hover:bg-slate-200' 
-                        : 'bg-primary text-white hover:bg-primary-dark shadow-sm'
-                    }`}
+                    className="w-full py-2.5 px-4 rounded-lg font-medium flex items-center justify-center gap-2 transition-all duration-150 bg-primary text-white hover:bg-primary-dark shadow-sm"
                   >
-                    {job.isExternal ? (
-                      <>Apply Externally <ExternalLink size={16} /></>
-                    ) : (
-                      'Apply Now'
-                    )}
+                    Apply Now
                   </button>
                 )}
               </div>
