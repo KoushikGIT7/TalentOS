@@ -90,15 +90,15 @@ export default function Jobs() {
       return;
     }
 
-    // Require complete profile before applying
-    if (!profile || !profile.skills || profile.skills.length === 0 || !profile.resumeUrl) {
-      alert('Please complete your profile details (including skills and resume) before applying to any jobs.');
-      window.location.href = '/onboarding';
+    if (job.isExternal && job.externalUrl) {
+      window.open(job.externalUrl, '_blank');
       return;
     }
 
-    if (job.isExternal && job.externalUrl) {
-      window.open(job.externalUrl, '_blank');
+    // Require complete profile before applying to internal jobs
+    if (!profile || !profile.skills || profile.skills.length === 0 || !profile.resumeUrl) {
+      alert('Please complete your profile details (including skills and resume) before applying to any jobs.');
+      window.location.href = '/onboarding';
       return;
     }
 
