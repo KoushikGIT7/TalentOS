@@ -26,7 +26,11 @@ app.use(morgan('dev'));
 // Body Parsing
 app.use(express.json({ limit: '10kb' }));
 
-// Health Check
+// Health Check & Root
+app.get('/', (req, res) => {
+  res.send('<h1>TalentOS Backend API is Running 🚀</h1><p>Please use the frontend application to interact with this API.</p>');
+});
+
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'TalentOS API is running 🚀' });
 });

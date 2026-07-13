@@ -3,7 +3,7 @@ import dns from 'dns';
 
 // Use Google DNS to resolve MongoDB Atlas SRV records
 // (fixes ECONNREFUSED on networks where the local router DNS doesn't support SRV lookups)
-dns.setServers(['8.8.8.8', '8.8.4.4']);
+// dns.setServers(['8.8.8.8', '8.8.4.4']); // <-- COMMENTED OUT FOR VERCEL DEPLOYMENT
 
 const connectDB = async () => {
   const maxRetries = 5;
